@@ -1,34 +1,26 @@
 import React, { useRef, useState } from 'react'
-import { Box, Button, Paper, Typography } from '@mui/material'
+import { Box, Button, Paper, Snackbar, Typography } from '@mui/material'
 import { FcGoogle } from 'react-icons/fc';
 import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../../components/hooks/useFirebase'
-import { useAppSelector } from '../../components/Redux/hooks';
 import '../../App.css'
-
-
-type Inputs = {
-    example: string,
-    exampleRequired: string,
-};
+ 
 
 const Login = () => {
 
-    const { handleGoogleSign, signUpWithEmail, processing, logInWithEmail } = useFirebase();
+    const { handleGoogleSign, signUpWithEmail, processing, logInWithEmail, error} = useFirebase();
     const location = useLocation();
     const [registerStatus, setRegister] = useState<boolean>(false);
     const nameRef = useRef<any>(null);
     const emailRef = useRef<any>(null);
     const navigate = useNavigate();
     const passwordRef = useRef<any>(null);
-
-
+    
     // google sign
     const googleSign = () => {
         handleGoogleSign(location);
     };
-    const { loginUser } = useAppSelector(state => state?.data);
 
     // register and login function
     const handleAccountSign = (e: any) => {
@@ -39,7 +31,6 @@ const Login = () => {
         }
         e.preventDefault();
     }
-
 
 
     // sstyle sheet
@@ -133,6 +124,11 @@ const Login = () => {
 
             </Paper>
 
+            <Snackbar
+    open={Boolean(error)}
+  autoHideDuration={5000}
+  message={error}
+/>
         </Box>
 
     )

@@ -55,7 +55,7 @@ function Home() {
 
     // connect io connect server
     useEffect(() => {
-        socketClient.current = io.connect("https://enigmatic-garden-12643.herokuapp.com");
+        socketClient.current = io.connect("http://localhost:9000");
         socketClient.current.removeAllListeners();
     }, []);
 

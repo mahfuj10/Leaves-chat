@@ -33,7 +33,7 @@ export const GroupChat = (props: Props) => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`https://enigmatic-garden-12643.herokuapp.com/group/groupchat/${selectedGroup.groupId}`)
+        axios.get(`http://localhost:9000/group/groupchat/${selectedGroup.groupId}`)
             .then(res => {
                 setLoading(false);
                 dispatch(getGroupChat(res.data));
@@ -55,7 +55,7 @@ export const GroupChat = (props: Props) => {
 
         };
         try {
-            await axios.post(`https://enigmatic-garden-12643.herokuapp.com/chat`, messageData);
+            await axios.post(`http://localhost:9000/chat`, messageData);
             setPhotoUrl('');
         } catch (err) {
             console.error(err)
@@ -86,7 +86,7 @@ export const GroupChat = (props: Props) => {
         const imgFile = watch('picFile');
         if (imgFile?.length) {
             let body = new FormData();
-            body.set('key', '752d2bbd9a2e4d6a5910df9c191e1643')
+            body.set('key', '18b523a65ed553a3bb7441153cbee867')
             body.append('image', imgFile[0])
             setImgLoading(true);
             axios({
@@ -150,7 +150,9 @@ export const GroupChat = (props: Props) => {
         height: 60,
         background: "#4E426D",
         borderRadius: 10,
-        marginBottom: 5
+        marginBottom: 5,
+        color:'white',
+        padding:'10px'
     };
 
 
@@ -206,7 +208,7 @@ export const GroupChat = (props: Props) => {
                     </Box>
                 }
 
-                <Box className="message_container" sx={{ height: { xs: '30rem', md: '34rem', xl: 680 } }}>
+                <Box className="message_container" sx={{ height: { xs: '30rem', md: '34rem',lg: 470, xl: 550 } }}>
 
 
                     {

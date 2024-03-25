@@ -18,7 +18,7 @@ const App = () => {
     dispatch(gellAllGroups());
     dispatch(getAllUsers());
   }, [loginUser]);
-  // https://enigmatic-garden-12643.herokuapp.com
+  // http://localhost:9000
 
   return (
 

@@ -83,19 +83,20 @@ export default function GroupsModal({ socket, handleOpen, open, handleClose, han
 
 
         try {
-            await axios.post('https://enigmatic-garden-12643.herokuapp.com/group', data).then(res => {
-                setLoading(false);
-                dispatch(reseatGroupMembers(0));
-                handleClose();
-                setActiveStep(0);
-                // dispatch(saveCreatedGroup(data));
-                socket.current.emit('joinedgroup', data);
-            });
+            await axios.post('http://localhost:9000/group', data);
+          
+            setLoading(false);
+            dispatch(reseatGroupMembers(0));
+            handleClose();
+            setActiveStep(0);
+
+            socket.current.emit('joinedgroup', data);
+            
             for (let member of selectedGroupMembers) {
-                await axios.post(`https://enigmatic-garden-12643.herokuapp.com/group/saveinuserdata/${member.uid}`, { groupId });
+                await axios.post(`http://localhost:9000/group/saveinuserdata/${member.uid}`, { groupId });
             };
             // for currernt user
-            await axios.post(`https://enigmatic-garden-12643.herokuapp.com/group/saveinuserdata/${loginUser.uid}`, { groupId });
+            await axios.post(`http://localhost:9000/group/saveinuserdata/${loginUser.uid}`, { groupId });
         }
         catch (err: any) {
             console.error(err.message);

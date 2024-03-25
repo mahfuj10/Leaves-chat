@@ -87,7 +87,7 @@ export const useFirebase = () => {
                 setLoading(false);
 
 
-                axios.get(`https://enigmatic-garden-12643.herokuapp.com/users/checkuser/${user?.uid}`)
+                axios.get(`http://localhost:9000/users/checkuser/${user?.uid}`)
                     .then(res => {
                         if (res.data.newUser === true) {
                             saveUser(userData, 'PUT');
@@ -97,7 +97,7 @@ export const useFirebase = () => {
 
                 // saveUser(userData, 'PUT')
 
-                // fetch('https://enigmatic-garden-12643.herokuapp.com/users', {
+                // fetch('http://localhost:9000/users', {
                 //     method: 'PUT',
                 //     headers: {
                 //         'content-type': 'application/json'
@@ -106,7 +106,7 @@ export const useFirebase = () => {
                 // })
                 //     .then()
                 // empty dependency array means this effect will only run once (like componentDidMount in classes)
-                // axios.post(`https://enigmatic-garden-12643.herokuapp.com/users`, user)
+                // axios.post(`http://localhost:9000/users`, user)
             }).catch((error) => {
                 setError(error.message);
             }).finally(() => setLoading(false));
@@ -133,7 +133,7 @@ export const useFirebase = () => {
 
     // save user on database 
     const saveUser = (data: object, method: string) => {
-        fetch('https://enigmatic-garden-12643.herokuapp.com/users', {
+        fetch('http://localhost:9000/users', {
             method: method,
             headers: {
                 'content-type': 'application/json'
@@ -179,12 +179,18 @@ export const useFirebase = () => {
         }).then((data) => {
             // Profile updated!
             // ...
-        }).catch((error) => {
+        }).catch((error:any) => {
             console.log(error.message);
             // An error occurred
+            setError(error.message)
             // ...
         });
     };
+
+
+    const updateError = (error: string) => {
+        setError(error)
+    }
 
     return {
         handleGoogleSign,
@@ -196,6 +202,7 @@ export const useFirebase = () => {
         logInWithEmail,
         processing,
         reseatPassword,
-        updatePhotoAndName
+        updatePhotoAndName,
+        updateError
     };
 }

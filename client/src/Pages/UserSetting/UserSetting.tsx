@@ -137,7 +137,7 @@ export default function UserSetting() {
 
     // load user
     useEffect(() => {
-        axios.get(`https://enigmatic-garden-12643.herokuapp.com/users/singleuser/${userId}`)
+        axios.get(`http://localhost:9000/users/singleuser/${userId}`)
             .then(res => {
                 setUser(res.data);
                 setLoading(false);
@@ -177,7 +177,7 @@ export default function UserSetting() {
 
         setProfileUpdateing(true);
 
-        await axios.put(`https://enigmatic-garden-12643.herokuapp.com/users/updateprofile/${matchUser.uid}`, { photoURL: photoUrl })
+        await axios.put(`http://localhost:9000/users/updateprofile/${matchUser.uid}`, { photoURL: photoUrl })
             .then(() => {
                 updatePhotoAndName(loginUser.displayName, photoUrl);
                 setProfileUpdateing(false);

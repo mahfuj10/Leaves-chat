@@ -37,7 +37,7 @@ function Chat({ socket, roomId }: any) {
 
         const getMessages = async () => {
             try {
-                await axios.get(`https://enigmatic-garden-12643.herokuapp.com/chat/${roomId}`)
+                await axios.get(`http://localhost:9000/chat/${roomId}`)
                     .then(res => {
                         setMessageList(res.data);
                     });
@@ -63,7 +63,7 @@ function Chat({ socket, roomId }: any) {
             time: Date.now(),
         };
         try {
-            await axios.post(`https://enigmatic-garden-12643.herokuapp.com/chat`, messageData).then(() => setTextLoading(false));
+            await axios.post(`http://localhost:9000/chat`, messageData).then(() => setTextLoading(false));
             setPhotoUrl('');
         } catch (err) {
             console.error(err)
@@ -96,7 +96,7 @@ function Chat({ socket, roomId }: any) {
         const imgFile = watch('picFile');
         if (imgFile?.length) {
             let body = new FormData();
-            body.set('key', '752d2bbd9a2e4d6a5910df9c191e1643')
+            body.set('key', '18b523a65ed553a3bb7441153cbee867')
             body.append('image', imgFile[0])
             setImgLoading(true);
             axios({
@@ -228,7 +228,7 @@ function Chat({ socket, roomId }: any) {
                     </Box>
                 }
 
-                <Box className="message_container" sx={{ height: { xs: '30rem', md: '34rem', xl: 680 } }}>
+                <Box className="message_container" sx={{ height: { xs: '30rem', md: '34rem',lg: 470, xl: 550 } }}>
 
 
                     {
@@ -293,7 +293,9 @@ function Chat({ socket, roomId }: any) {
                             height: 60,
                             background: "#4E426D",
                             borderRadius: 10,
-                            marginBottom: 5
+                            marginBottom: 5,
+                            color:'white',
+                            padding:'10px'
                         }}
                     />
 

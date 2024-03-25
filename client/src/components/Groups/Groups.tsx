@@ -58,17 +58,18 @@ const Groups = ({ socket, handleAddRoomId }: any) => {
 
         setMyGroups(groups);
         dispatch(getJoinedGroups(groups));
-    }, [joinedGroup, allGroups, createdGroup]);
+    }, [joinedGroup, allGroups, createdGroup, currentUser?.groups, dispatch, groups]);
 
 
 
     useEffect(() => {
-        socket.current.on('joinedgroup', function (data: any) {
+        socket.current?.on('joinedgroup', function (data: any) {
             setJoingroup(data);
+            console.log('joined',)
             dispatch(gellAllGroups());
             dispatch(saveCreatedGroup(data));
         });
-    }, [socket])
+    }, [socket, dispatch])
 
     // stylesheet
     const textStyle = {

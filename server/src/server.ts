@@ -6,7 +6,7 @@ const cors = require("cors");
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const app = express();
-const port = process.env.PORT || 5000;
+const port =  9000;
 
 
 
@@ -16,19 +16,29 @@ app.use(cors());
 
 // mongodb connectiorsn
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.39aol.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.39aol.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+// const client = new MongoClient(uri, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// });
+// "@emotion/react": "^11.9.0",
+//     "@emotion/styled": "^11.8.1",
+//     "@material-ui/core": "^5.0.0-beta.5",
+//     "@material-ui/icons": "^4.11.3",
+//     "@mui/icons-material": "^5.6.2",
+//     "@mui/lab": "^5.0.0-alpha.80",
+//     "@mui/material": "^5.6.3",
+//     "@mui/styled-engine-sc": "^5.6.1",
+// console.log('client',client);
 
 
 // socket.io connection
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
-io.on("connection", (socket: any) => {
+io.on("connection", async(socket: any) => {
 
+   try{
     console.log("User connected with ", socket.id);
 
     socket.on("join_room", (data: any) => {
@@ -51,11 +61,8 @@ io.on("connection", (socket: any) => {
     const users: any = {};
 
     socket.on('login', function (data: any) {
-        // const uid = { userId: data?.userId };
         users[socket.id] = data.loginUser?.uid
         socket.broadcast.emit('user-connected', data.loginUser);
-
-        // socket.broadcast.emit("activeusers", users);
     });
 
 
@@ -64,26 +71,22 @@ io.on("connection", (socket: any) => {
         console.log(data)
     })
 
+    socket.on('joinedgroup', function (data: any) {
+        socket.emit('joinedgroup', data);
+        console.log(data)
+    })
+
     socket.on('disconnect', () => {
         socket.broadcast.emit('user-disconnected', users[socket.id])
         delete users[socket.id]
         console.log(`User disconnected ${socket.id}`);
     });
-
-
-
-
-
-    // socket.on('checkActive', id => {
-    //     socket.to(id).emit('isActive', id);
-    // })
-    // socket.on('activeUser', user => {
-    //     socket.broadcast.emit('receive_activeUser', user)
-    // })
+   } catch(err){
+    console.log('socket connection error',err);
+   }
 
 })
 
-// mongodb connection
 
 // import router
 const users = require('../src/routes/users');
@@ -121,5 +124,5 @@ app.get("/", async (req: Request, res: Response) => {
 
 
 server.listen(port, () => {
-    console.log("my server is runningin port 5000")
+    console.log("my server is runningin port", port)
 })
